@@ -1064,13 +1064,12 @@ where {
             }
 
             if curr_depth >= prank.depth && call.caller == prank.prank_caller {
-                let mut prank_applied = false;
-
-                // At the target depth we set `msg.sender`
-                if curr_depth == prank.depth {
+                let mut prank_applied = if curr_depth == prank.depth {
                     call.caller = prank.new_caller;
-                    prank_applied = true;
-                }
+                    true
+                } else {
+                    false
+                };
 
                 // At the target depth, or deeper, we set `tx.origin`
                 if let Some(new_origin) = prank.new_origin {

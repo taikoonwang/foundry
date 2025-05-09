@@ -41,13 +41,21 @@ exclude = ["benches/", "tests/", "test-data/", "testdata/"]
 dbg-macro = "warn"
 explicit_iter_loop = "warn"
 manual-string-new = "warn"
-uninlined-format-args = "warn"
-use-self = "warn"
 redundant-clone = "warn"
 octal-escapes = "allow"
 # until <https://github.com/rust-lang/rust-clippy/issues/13885> is fixed
 literal-string-with-formatting-args = "allow"
 result_large_err = "allow"
+uninhabited_references = "warn"
+unnecessary_self_imports = "warn"
+unnecessary_struct_initialization = "warn"
+unnested_or_patterns = "warn"
+unused_peekable = "warn"
+unused_rounding = "warn"
+use_self = "warn"
+useless_let_if_seq = "warn"
+while_float = "warn"
+zero_sized_map_values = "warn"
 
 [workspace.lints.rust]
 rust-2018-idioms = "warn"

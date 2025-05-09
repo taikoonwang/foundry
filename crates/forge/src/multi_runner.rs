@@ -238,11 +238,11 @@ impl MultiContractRunner {
         progress: Option<&TestsProgress>,
     ) -> SuiteResult {
         let identifier = artifact_id.identifier();
-        let mut span_name = identifier.as_str();
-
-        if !enabled!(tracing::Level::TRACE) {
-            span_name = get_contract_name(&identifier);
-        }
+        let span_name = if !enabled!(tracing::Level::TRACE) {
+            get_contract_name(&identifier)
+        } else {
+            identifier.as_str()
+        };
         let span = debug_span!("suite", name = %span_name);
         let span_local = span.clone();
         let _guard = span_local.enter();

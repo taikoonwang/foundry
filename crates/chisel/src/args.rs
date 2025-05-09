@@ -79,7 +79,7 @@ pub async fn run_command(args: Chisel) -> Result<()> {
             }
             return Ok(())
         }
-        Some(ChiselSubcommand::Load { id }) | Some(ChiselSubcommand::View { id }) => {
+        Some(ChiselSubcommand::Load { id } | ChiselSubcommand::View { id }) => {
             // For both of these subcommands, we need to attempt to load the session from cache
             match dispatcher.dispatch_command(ChiselCommand::Load, &[id]).await {
                 DispatchResult::CommandSuccess(_) => { /* Continue */ }

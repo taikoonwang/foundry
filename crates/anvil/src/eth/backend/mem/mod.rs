@@ -1951,12 +1951,12 @@ impl Backend {
 
         // get the range that predates the fork if any
         if let Some(fork) = self.get_fork() {
-            let mut to_on_fork = to;
-
-            if !fork.predates_fork(to) {
+            let to_on_fork = if !fork.predates_fork(to) {
                 // adjust the ranges
-                to_on_fork = fork.block_number();
-            }
+                fork.block_number()
+            } else {
+                to
+            };
 
             if fork.predates_fork_inclusive(from) {
                 // this data is only available on the forked client

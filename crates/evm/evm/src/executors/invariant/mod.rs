@@ -539,11 +539,10 @@ impl<'a> InvariantExecutor<'a> {
 
         // Allows `override_call_strat` to use the address given by the Fuzzer inspector during
         // EVM execution.
-        let mut call_generator = None;
-        if self.config.call_override {
+        let call_generator = if self.config.call_override {
             let target_contract_ref = Arc::new(RwLock::new(Address::ZERO));
 
-            call_generator = Some(RandomCallGenerator::new(
+            Some(RandomCallGenerator::new(
                 invariant_contract.address,
                 self.runner.clone(),
                 override_call_strat(
@@ -553,8 +552,10 @@ impl<'a> InvariantExecutor<'a> {
                     fuzz_fixtures.clone(),
                 ),
                 target_contract_ref,
-            ));
-        }
+            ))
+        } else {
+            None
+        };
 
         self.executor.inspector_mut().fuzzer =
             Some(Fuzzer { call_generator, fuzz_state: fuzz_state.clone(), collect: true });

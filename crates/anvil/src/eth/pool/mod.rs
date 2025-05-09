@@ -159,10 +159,11 @@ impl Pool {
         };
         trace!(target: "txpool", "Dropped transactions: {:?}", removed);
 
-        let mut dropped = None;
-        if !removed.is_empty() {
-            dropped = removed.into_iter().find(|t| *t.pending_transaction.hash() == tx);
-        }
+        let dropped = if !removed.is_empty() {
+            removed.into_iter().find(|t| *t.pending_transaction.hash() == tx)
+        } else {
+            None
+        };
         dropped
     }
 

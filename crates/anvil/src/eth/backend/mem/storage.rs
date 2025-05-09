@@ -547,12 +547,13 @@ impl MinedTransaction {
                 };
                 let mut from = node.trace.caller;
                 let mut to = node.trace.address;
-                let mut value = node.trace.value;
-                if node.is_selfdestruct() {
+                let value = if node.is_selfdestruct() {
                     from = node.trace.address;
                     to = node.trace.selfdestruct_refund_target.unwrap_or_default();
-                    value = node.trace.selfdestruct_transferred_value.unwrap_or_default();
-                }
+                    node.trace.selfdestruct_transferred_value.unwrap_or_default()
+                } else {
+                    node.trace.value
+                };
                 Some(InternalOperation { r#type, from, to, value })
             })
             .collect()

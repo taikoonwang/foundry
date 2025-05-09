@@ -300,11 +300,13 @@ pub fn get_compiled(project: &mut Project) -> ProjectCompileOutput {
     let read = lock.read().unwrap();
     let out;
 
-    let mut write = None;
-    if !project.cache_path().exists() || std::fs::read(&lock_file_path).unwrap() != b"1" {
+    let mut write = if !project.cache_path().exists() || std::fs::read(&lock_file_path).unwrap() != b"1"
+    {
         drop(read);
-        write = Some(lock.write().unwrap());
-    }
+        Some(lock.write().unwrap())
+    } else {
+        None
+    };
 
     if project.compiler.vyper.is_none() {
         project.compiler.vyper = Some(get_vyper());

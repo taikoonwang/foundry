@@ -3185,7 +3185,12 @@ impl TryFrom<Result<(InstructionResult, Option<Output>, u128, State)>> for GasEs
             }
             Err(err) => Err(err),
             Ok((exit, output, gas, _)) => match exit {
-                return_ok!() | InstructionResult::CallOrCreate => Ok(Self::Success(gas)),
+                InstructionResult::Continue |
+                InstructionResult::Stop |
+                InstructionResult::Return |
+                InstructionResult::SelfDestruct |
+                InstructionResult::ReturnContract |
+                InstructionResult::CallOrCreate => Ok(Self::Success(gas)),
 
                 InstructionResult::Revert => Ok(Self::Revert(output.map(|o| o.into_data()))),
 
